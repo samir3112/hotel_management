@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>StayNest - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero" id="home">
+        <div class="navbar">
+            <h2>StayNest</h2>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="{{ url_for('bookings') }}">Bookings</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>A Grateful Escape</h1>
+            <p>Comfort Redefined</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+    <div class="about-container">
+        <div class="about-text">
+            <h2><span class="underline-red">ABOUT US</span></h2>
+            <p>
+                Welcome to StayNest – your perfect escape into luxury and relaxation. Our resort is designed with
+                elegance, comfort, and serenity in mind. Whether you're here for a family vacation, a romantic
+                getaway, or a corporate retreat, we cater to your every need.
+            </p>
+            <p>
+                Since the 2005, we've built a legacy in hospitality. From classic charm to modern convenience, our
+                commitment to excellence ensures your stay is memorable and satisfying. Our lush gardens, stunning
+                pool views, and world-class service make StayNest more than a destination – it’s an experience.
+            </p>
+        </div>
+        <div class="about-image">
+            <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="Resort View">
+        </div>
+    </div>
+</section>
+
+
+    <!-- Rooms Sections -->
+    <section id="rooms" class="rooms-section">
+    <h2 class="section-title"><span class="underline-red">Our Rooms</span></h2>
+    <div class="room-container">
+        {% for room in rooms %}
+        <a href="{{ url_for('room_detail', room_id=room['id']) }}">
+            <div class="room-card">
+                <img src="{{ url_for('static', filename='images/' + room['image']) }}" alt="{{ room['name'] }}">
+                <h3>{{ room['name'] }}</h3>
+                <p>{{ room['description'] }}</p>
+                <p class="price">₹{{ room['price'] }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+    <center><h2 class="section-title"><span class="underline-red">CONTACT US</span></h2></center>
+    <div class="contact-container">
+        <div class="contact-info">
+            <div class="info-box">
+                <h3><center>Hotel Name</center></h3>
+                <p><center>StayNest Resort</center></p>
+            </div>
+            <div class="info-box">
+                <h3><center>Email</center></h3>
+                <p><center>staynest@gmail.com</center></p>
+            </div>
+            <div class="info-box">
+                <h3><center>Phone</center></h3>
+                <p><center>+91 8999419811</center></p>
+            </div>
+            <div class="info-box">
+                <h3><center>Address</center></h3>
+                <p><center>123 Paradise Lane, Goa, India</center></p>
+            </div>
+        </div>
+        <div class="contact-map">
+            <img src="{{ url_for('static', filename='images/c.jpg') }}" alt="Hotel Location Map">
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-column brand">
+      <h2>StayNest</h2>
+      <p>Your perfect escape into luxury and comfort.</p>
+      <p>Experience hospitality like never before-where every stay feels like coming home. Discover impeccable service, elegant rooms, and unforgettable moments tailored just for you.</p>
+    </div>
+
+    <div class="footer-column about">
+      <h3>About Us</h3>
+      <p>StayNest is a premium hotel nestled in the heart of Goa, offering elegant rooms, world-class service, and a peaceful ambiance. We’re dedicated to making your stay extraordinary — whether for business, leisure, or a quick getaway.</p>
+    </div>
+
+    <div class="footer-column links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#rooms">Rooms</a></li>
+        <li><a href="{{ url_for('bookings') }}">Bookings</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column contact">
+      <h3>Contact Us</h3>
+      <p><i class="fas fa-map-marker-alt"></i> 123 Paradise Lane, Goa, India</p>
+      <p><i class="fas fa-phone"></i> +91 8999419811</p>
+      <p><i class="fas fa-envelope"></i> staynest@gmail.com</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 StayNest. All rights reserved. Designed with ❤️ for your comfort.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ room.name }} - Room Details | StayNest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <h2>StayNest</h2>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#rooms">Rooms</a></li>
+            <li><a href="{{ url_for('bookings') }}">Bookings</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+        </ul>
+    </div>
+
+    <section class="room-detail">
+        <div class="room-detail-container">
+            <div class="room-detail-image">
+                <img src="{{ url_for('static', filename='images/' + room.image) }}" alt="{{ room.name }}">
+            </div>
+            <div class="room-detail-info">
+                <h1>{{ room.name }}</h1>
+                <p>{{ room.description }}</p>
+                <h3>Price per night: ₹{{ room.price }}</h3>
+                {% if room.facility %}
+                     <p><strong>Facilities:</strong> {{ room.facility }}</p>
+                {% endif %}
+            {% if session.get('username') %}
+               <a href="{{ url_for('book_room', room_id=room.id) }}"><button class="book-button">Book Room</button></a>
+            {% else %}
+               <a href="{{ url_for('login') }}"><button class="book-button">Login to Book</button></a>
+            {% endif %}
+
+            </div>
+        </div>
+    </section>
+</body>
+</html>

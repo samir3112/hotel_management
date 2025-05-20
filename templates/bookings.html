@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Your Bookings | StayNest</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .bookings-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px 40px;
+        }
+        h2 {
+            color: #b33a3a;
+            border-bottom: 2px solid #b33a3a;
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+        .booking-card {
+            background-color: #fff3cd;
+            border-left: 6px solid #ffa726;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 1px 2px 6px rgba(0,0,0,0.1);
+        }
+        .booking-card strong {
+            font-weight: 600;
+        }
+        .btn-logout, .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #b33a3a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-logout:hover, .btn-back:hover {
+            background-color: #7a2525;
+        }
+        .btn-back {
+            background-color: #007bff;
+            margin-left: 10px;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="bookings-container">
+        <h2>Bookings for {{ username }}</h2>
+        
+        {% for booking in bookings %}
+        <div class="booking-card" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+    <h3>{{ booking.room_name }}</h3>
+    <p><strong>Price per night:</strong> ₹{{ booking.price }}</p>
+    <p><strong>Check-in:</strong> {{ booking.check_in.strftime('%B %d, %Y') }}</p>
+    <p><strong>Check-out:</strong> {{ booking.check_out.strftime('%B %d, %Y') }}</p>
+    <p><strong>Number of nights:</strong> {{ booking.days }}</p>
+    <p><strong>Total Price:</strong> ₹{{ booking.total_price }}</p>
+
+    <form method="POST" action="{{ url_for('cancel_booking', booking_id=booking.id) }}">
+        <button type="submit" style="background: #d9534f; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+            Cancel Booking
+        </button>
+    </form>
+</div>
+
+       {% else %}
+      <p>You have no bookings yet.</p>
+       {% endfor %}
+
+        
+        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        <a href="{{ url_for('home') }}#rooms" class="btn-back">Back to Rooms</a>
+    </div>
+</body>
+</html>

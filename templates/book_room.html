@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book {{ room.name }} | StayNest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .booking-container {
+            max-width: 500px;
+            margin: 60px auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <h1>Book Room: {{ room.name }}</h1>
+        <form method="POST">
+            <label for="name">Full Name:</label>
+            <input type="text" name="name" required>
+
+            <label for="city">City:</label>
+            <input type="text" name="city" required>
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" name="contact" required pattern="\d{10,15}" title="Enter valid contact number">
+
+            <label for="check_in">Check-in Date:</label>
+            <input type="date" name="check_in" required>
+
+            <label for="check_out">Check-out Date:</label>
+            <input type="date" name="check_out" required>
+
+            <button type="submit">Confirm Booking</button>
+        </form>
+        <a class="back-link" href="{{ url_for('room_detail', room_id=room.id) }}">← Back to Room Details</a>
+    </div>
+</body>
+</html>
