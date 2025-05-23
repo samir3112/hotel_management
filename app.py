@@ -10,7 +10,7 @@ app.secret_key = os.urandom(24)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'default_secret')
 
 # Docker-based MySQL connection
-app.config['MYSQL_HOST'] = 'db'  # Docker Compose service name
+app.config['MYSQL_HOST'] = 'mysql-service'  # Docker Compose service name
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'hotel_db'
