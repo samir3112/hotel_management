@@ -1,4 +1,3 @@
-# --- PersistentVolume + PersistentVolumeClaim ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -22,7 +21,6 @@ spec:
     requests:
       storage: 1Gi
 ---
-# --- MySQL Deployment ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,35 +38,26 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: root
-        - name: MYSQL_DATABASE
-          value: hotel_db
         ports:
         - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "hotel_db"
         volumeMounts:
         - name: mysql-storage
           mountPath: /var/lib/mysql
         - name: mysql-initdb
           mountPath: /docker-entrypoint-initdb.d
-          readOnly: true
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
           claimName: mysql-pvc
       - name: mysql-initdb
-        hostPath:
-          path: /home/vagrant/hotel_management/mysql-init
-          type: Directory
         configMap:
           name: mysql-initdb-config
-          items:
-          - key: init.sql
-            path: init.sql
-
 ---
-# --- MySQL Service ---
 apiVersion: v1
 kind: Service
 metadata:

@@ -5,17 +5,17 @@ import os
 
 app = Flask(__name__)
 
-# Secret key for session management
-app.secret_key = os.urandom(24)
+# Use secret from env or default fallback (do not use os.urandom every time)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'default_secret')
 
-# Docker-based MySQL connection
-app.config['MYSQL_HOST'] = 'mysql-service'  # Docker Compose service name
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'hotel_db'
+# MySQL connection settings via env variables or defaults
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'mysql-service')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD', 'root')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB', 'hotel_db')
 
 mysql = MySQL(app)
+
 
 # Helper function to get user_id from username
 def get_user_id(username):

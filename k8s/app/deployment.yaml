@@ -20,3 +20,11 @@ spec:
         env:
         - name: FLASK_ENV
           value: "production"
+        - name: DB_HOST
+          value: "mysql-service"
+        - name: DB_NAME
+          value: "hotel_db"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASSWORD
+          value: "root"
