@@ -1,47 +1,40 @@
 pipeline {
     agent any
-    
+
     environment {
-        // Docker Hub credentials configured in Jenkins
-        DOCKER_CREDENTIALS_ID = 'docker-hub-creds'
-        IMAGE_NAME = 'samir3112/hotel-management'
-        KUBE_CONFIG_CREDENTIALS_ID = 'kubeconfig'  // your K8s config credential in Jenkins
+        IMAGE_NAME = "samir3112/hotel-management"
+        TAG = "latest"
     }
 
     stages {
-        stage('Checkout') {
+        stage('Clone Code') {
             steps {
-                // Checkout code from GitHub or your repo
-                checkout scm
+                git 'https://github.com/samir3112/hotel-management.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${env.IMAGE_NAME}:latest")
+                    sh 'docker build -t $IMAGE_NAME:$TAG .'
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Push to DockerHub') {
             steps {
-                script {
-                    docker.withRegistry('', DOCKER_CREDENTIALS_ID) {
-                        dockerImage.push('latest')
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $IMAGE_NAME:$TAG
+                    '''
                 }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                // Use your kubeconfig credential to access K8s cluster
-                withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS_ID]) {
-                    // Apply k8s manifests from k8s/ folder
-                    sh 'kubectl apply -f k8s/deployment.yaml'
-                    sh 'kubectl apply -f k8s/service.yaml'
-                }
+                sh 'kubectl apply -f k8s/'
             }
         }
     }
