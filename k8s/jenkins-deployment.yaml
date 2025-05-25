@@ -23,3 +23,11 @@ spec:
       volumes:
         - name: jenkins-data
           emptyDir: {}
+
+
+#  kubectl apply -f k8s/jenkins-deployment.yaml
+#  kubectl apply -f k8s/jenkins-service.yaml
+#  kubectl get pods
+# kubectl describe pod jenkins-55c7c9548d-ffb8v
+# kubectl exec -it jenkins-55c7c9548d-ffb8v -- /bin/bash
+# cat /var/jenkins_home/secrets/initialAdminPassword
