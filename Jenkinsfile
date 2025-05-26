@@ -9,7 +9,7 @@ pipeline {
      stages {
         stage('Clone Code') {
             steps {
-                git 'https://github.com/samir3112/hotel_management.git', branch: 'main'
+                git 'https://github.com/samir3112/hotel_management.git'
             }
         }
 
