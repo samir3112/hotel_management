@@ -6,10 +6,10 @@ pipeline {
         TAG = "latest"
     }
 
-     stages {
+    stages {
         stage('Clone Code') {
             steps {
-                git 'https://github.com/samir3112/hotel_management.git'
+                git branch: 'main', url: 'https://github.com/samir3112/hotel_management.git'
             }
         }
 
