@@ -37,22 +37,3 @@ spec:
 # kubectl apply -f deployment.yaml
 # kubectl apply -f service.yaml
 
-# kubectl get pods
-
-# Enter in mysql container
-# kubectl exec -it $(kubectl get pods -l app=mysql -o jsonpath="{.items[0].metadata.name}") -- bash
-
-# mysql -u root -p  ( Log into mysql)
-
-# Delete all resources
-# kubectl delete deployment hotel-app
-# kubectl delete service hotel-service
-
-# kubectl delete deployment mysql
-# kubectl delete service mysql-service
-
-# kubectl delete pvc mysql-pvc
-# kubectl delete pv mysql-pv
-
-# kubectl delete configmap mysql-initdb-config
-# sudo rm -rf /mnt/data/mysql/*

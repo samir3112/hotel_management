@@ -6,12 +6,12 @@ pipeline {
         TAG = "latest"
     }
 
-    stages {
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/samir3112/hotel_management.git'
-            }
-        }
+    stage('Clone Code') {
+    steps {
+        git url: 'https://github.com/samir3112/hotel_management.git', branch: 'main'
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {

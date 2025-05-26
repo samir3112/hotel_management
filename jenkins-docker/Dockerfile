@@ -37,7 +37,7 @@ USER jenkins
 # docker --version
 
 # cd ~/hotel_management/jenkins-docker
-# docker build -t samir3112/jenkins-custom:v1 .
-# docker push samir3112/jenkins-custom:v1
+# docker build -t samir3112/jenkins-container:v1 .
+# docker push samir3112/jenkins-container:v1
 
-# docker run -d -p 8080:8080 -p 50000:50000 --name jenkins_custom samir3112/jenkins-custom:v1
+# docker run -d -p 8080:8080 -p 50000:50000 --name jenkins_container samir3112/jenkins-container:v1 ( Only when run as docker)

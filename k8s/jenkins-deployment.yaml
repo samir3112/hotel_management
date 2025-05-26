@@ -15,9 +15,9 @@ spec:
       labels:
         app: jenkins
     spec:
-      containers:
+      containers:   
         - name: jenkins
-          image: samir3112/jenkins-custom:v1
+          image: samir3112/jenkins-container:v1
           ports:
             - containerPort: 8080
           volumeMounts:
