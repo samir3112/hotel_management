@@ -31,6 +31,7 @@ spec:
   #  mkdir -p ~/.docker  docker login -u samir3112 -p NilSam@3112  (login credentials by kaniko)
   # kubectl delete secret dockerhub-secret (if new added)
   # kubectl create secret generic dockerhub-secret \
+  # kubectl apply -f jenkins-pv.yaml
   # kubectl apply -f jenkins-pvc.yaml
   # kubectl apply -f jenkins-deployment.yaml
   # kubectl apply -f jenkins-service.yaml
