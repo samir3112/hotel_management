@@ -25,4 +25,15 @@ spec:
               mountPath: /var/jenkins_home
       volumes:
         - name: jenkins-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: jenkins-pvc
+
+  #  mkdir -p ~/.docker  docker login -u samir3112 -p NilSam@3112  (login credentials by kaniko)
+  # kubectl delete secret dockerhub-secret (if new added)
+  # kubectl create secret generic dockerhub-secret \
+  # kubectl apply -f jenkins-pvc.yaml
+  # kubectl apply -f jenkins-deployment.yaml
+  # kubectl apply -f jenkins-service.yaml
+  # kubectl get pods
+  #  kubectl get svc
+  #  kubectl describe pod <--pod name-->
