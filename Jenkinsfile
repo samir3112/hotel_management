@@ -1,41 +1,43 @@
 pipeline {
-    agent {
-        kubernetes {
-            yamlFile 'kaniko-agent.yaml'
-        }
+  agent {
+    kubernetes {
+      yamlFile 'kaniko-agent.yaml'
+    }
+  }
+
+  environment {
+    DOCKER_IMAGE = "samir3112/hotel-management:latest"
+    DOCKER_CONFIG = "/kaniko/.docker/"
+  }
+
+  stages {
+    stage('Clone Repo') {
+      steps {
+        git credentialsId: 'GIT_TOKEN', url: 'https://github.com/samir3112/hotel_management.git', branch: 'main'
+      }
     }
 
-    environment {
-        IMAGE_NAME = "samir3112/hotel-management"
-        TAG = "latest"
+    stage('Build Docker Image with Kaniko') {
+      steps {
+        container('kaniko') {
+          sh '''
+            /kaniko/executor \
+              --dockerfile=Dockerfile \
+              --context=`pwd` \
+              --destination=$DOCKER_IMAGE \
+              --oci-layout-path=/kaniko/output \
+              --skip-tls-verify \
+              --verbosity=info
+          '''
+        }
+      }
     }
 
-    stages {
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/samir3112/hotel_management.git'
-            }
-        }
-
-        stage('Build & Push Image with Kaniko') {
-            steps {
-                container('kaniko') {
-                    sh '''
-                        /kaniko/executor \
-                          --dockerfile=/workspace/Dockerfile \
-                          --context=dir://workspace/ \
-                          --destination=$IMAGE_NAME:$TAG \
-                          --verbosity=info
-                    '''
-                }
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                sh 'kubectl apply -f k8s/flask-deployment.yaml'
-                sh 'kubectl apply -f k8s/flask-service.yaml'
-            }
-        }
+    stage('Deploy to Kubernetes') {
+      steps {
+        sh 'kubectl apply -f k8s/deployment.yaml'
+        sh 'kubectl apply -f k8s/service.yaml'
+      }
     }
+  }
 }
