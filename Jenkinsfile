@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yamlFile 'kaniko-agent.yaml'
+        }
+    }
 
     environment {
         IMAGE_NAME = "samir3112/hotel-management"
@@ -9,24 +13,19 @@ pipeline {
     stages {
         stage('Clone Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/samir3112/hotel_management.git'
+                git 'https://github.com/samir3112/hotel_management.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build & Push Image with Kaniko') {
             steps {
-                script {
-                    sh 'docker build -t $IMAGE_NAME:$TAG .'
-                }
-            }
-        }
-
-        stage('Push to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                container('kaniko') {
                     sh '''
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push $IMAGE_NAME:$TAG
+                        /kaniko/executor \
+                          --dockerfile=/workspace/Dockerfile \
+                          --context=dir://workspace/ \
+                          --destination=$IMAGE_NAME:$TAG \
+                          --verbosity=info
                     '''
                 }
             }
@@ -34,7 +33,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/'
+                sh 'kubectl apply -f k8s/flask-deployment.yaml'
+                sh 'kubectl apply -f k8s/flask-service.yaml'
             }
         }
     }
