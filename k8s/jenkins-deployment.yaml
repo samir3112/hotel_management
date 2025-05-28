@@ -1,10 +1,7 @@
-# jenkins/jenkins-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
-  labels:
-    app: jenkins
 spec:
   replicas: 1
   selector:
@@ -15,7 +12,7 @@ spec:
       labels:
         app: jenkins
     spec:
-      containers:   
+      containers:
         - name: jenkins
           image: samir3112/jenkins-container:v1
           ports:
@@ -28,9 +25,13 @@ spec:
           persistentVolumeClaim:
             claimName: jenkins-pvc
 
-  #  mkdir -p ~/.docker  docker login -u samir3112 -p NilSam@3112  (login credentials by kaniko)
+
+ #  mkdir -p ~/.docker  docker login -u samir3112 -p NilSam@3112  (login credentials by kaniko)
   # kubectl delete secret dockerhub-secret (if new added)
   # kubectl create secret generic dockerhub-secret \
+  # --from-file=.dockerconfigjson=/home/vagrant/.docker/config.json \
+  # --type=kubernetes.io/dockerconfigjson
+
   # kubectl apply -f jenkins-pv.yaml
   # kubectl apply -f jenkins-pvc.yaml
   # kubectl apply -f jenkins-deployment.yaml

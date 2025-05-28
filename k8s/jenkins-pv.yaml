@@ -8,5 +8,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/data/jenkins"
-  persistentVolumeReclaimPolicy: Retain
+    path: /opt/jenkins
+  
