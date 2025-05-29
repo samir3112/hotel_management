@@ -1,41 +1,35 @@
 pipeline {
   agent {
     kubernetes {
-      label 'kaniko'  // Matches the label set in Jenkins > Configure System
+      yamlFile 'kaniko-agent.yaml'
     }
-  }
-
-  environment {
-    DOCKER_IMAGE = "samir3112/hotel-management:latest"
-    DOCKER_CONFIG = "/kaniko/.docker/"
   }
 
   stages {
-    stage('Clone Repo') {
+    stage('Clone') {
       steps {
-        git credentialsId: 'GIT_TOKEN', url: 'https://github.com/samir3112/hotel_management.git', branch: 'main'
+        git 'https://github.com/samir3112/hotel_management.git'
       }
     }
 
-    stage('Build Docker Image with Kaniko') {
+    stage('Build and Push with Kaniko') {
       steps {
         container('kaniko') {
           sh '''
             /kaniko/executor \
-              --dockerfile=Dockerfile \
-              --context=`pwd` \
-              --destination=$DOCKER_IMAGE \
-              --skip-tls-verify \
-              --verbosity=info
+              --context `pwd` \
+              --dockerfile Dockerfile \
+              --destination=docker.io/yourdockerhub/hotel_app:v1 \
+              --insecure \
+              --skip-tls-verify
           '''
         }
       }
     }
 
-    stage('Deploy to Kubernetes') {
+    stage('Deploy to K8s') {
       steps {
         sh 'kubectl apply -f k8s/deployment.yaml'
-        sh 'kubectl apply -f k8s/service.yaml'
       }
     }
   }
