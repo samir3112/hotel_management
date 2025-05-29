@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kaniko-agent
   labels:
-    jenkins/label: kaniko
+    app: kaniko-agent
 spec:
-  serviceAccountName: kaniko-sa
   containers:
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
-      # No command needed
-      args: ["--help"]  # Just makes the container run and exit cleanly
+      command:
+        - cat
+      tty: true
       volumeMounts:
         - name: docker-config
           mountPath: /kaniko/.docker

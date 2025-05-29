@@ -12,7 +12,6 @@ spec:
       labels:
         app: jenkins
     spec:
-      serviceAccountName: kaniko-sa  # ✅ Add this
       containers:
         - name: jenkins
           image: samir3112/jenkins-container:v1
