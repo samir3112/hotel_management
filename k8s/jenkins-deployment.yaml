@@ -12,13 +12,13 @@ spec:
       labels:
         app: jenkins
     spec:
+      serviceAccountName: jenkins  # ✅ Add this
       containers:
         - name: jenkins
           image: samir3112/jenkins-container:v1
           ports:
-            - containerPort: 8080     #  existing port (Jenkins UI)
-            - containerPort: 50000    # ADD THIS PORT (agent communication)
-        # other container configs like volume mounts, env, etc.
+            - containerPort: 8080
+            - containerPort: 50000
           volumeMounts:
             - name: jenkins-data
               mountPath: /var/jenkins_home
@@ -26,6 +26,7 @@ spec:
         - name: jenkins-data
           persistentVolumeClaim:
             claimName: jenkins-pvc
+
 
 
  #  mkdir -p ~/.docker  docker login -u samir3112 -p NilSam@3112  (login credentials by kaniko)
