@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      yamlFile 'kaniko-agent.yaml'
+      label 'kaniko'  // Matches the label set in Jenkins > Configure System
     }
   }
 
@@ -25,7 +25,6 @@ pipeline {
               --dockerfile=Dockerfile \
               --context=`pwd` \
               --destination=$DOCKER_IMAGE \
-              --oci-layout-path=/kaniko/output \
               --skip-tls-verify \
               --verbosity=info
           '''
