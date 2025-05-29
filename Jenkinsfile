@@ -19,7 +19,7 @@ pipeline {
             /kaniko/executor \
               --context `pwd` \
               --dockerfile Dockerfile \
-              --destination=docker.io/yourdockerhub/hotel_app:v1 \
+              --destination=docker.io/samir3112/hotel-management:latest\
               --insecure \
               --skip-tls-verify
           '''

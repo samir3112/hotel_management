@@ -7,8 +7,13 @@ spec:
   containers:
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
+      imagePullPolicy: Always
       command:
-        - cat
+        - /kaniko/executor
+      args:
+        - --dockerfile=/workspace/Dockerfile
+        - --context=dir:///workspace/
+        - --destination=docker.io/samir3112/hotel-flask-app:latest
       tty: true
       volumeMounts:
         - name: docker-config
