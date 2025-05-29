@@ -16,7 +16,9 @@ spec:
         - name: jenkins
           image: samir3112/jenkins-container:v1
           ports:
-            - containerPort: 8080
+            - containerPort: 8080     #  existing port (Jenkins UI)
+            - containerPort: 50000    # ADD THIS PORT (agent communication)
+        # other container configs like volume mounts, env, etc.
           volumeMounts:
             - name: jenkins-data
               mountPath: /var/jenkins_home
