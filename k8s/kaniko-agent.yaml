@@ -1,8 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  name: kaniko-agent           # <-- ADD THIS
   labels:
-    agent: kaniko
+    jenkins/label: kaniko      # <-- FIXED LABEL
 spec:
   serviceAccountName: kaniko-sa
   containers:
