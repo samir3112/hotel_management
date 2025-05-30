@@ -3,10 +3,13 @@ kind: Pod
 metadata:
   labels:
     app: kaniko-agent
-    jenkins: agent  # This label allows Jenkins to match and schedule the agent pod
+    jenkins: agent
 spec:
   serviceAccountName: jenkins
   containers:
+    - name: jnlp
+      image: jenkins/inbound-agent:latest
+      args: ['$(JENKINS_SECRET)', '$(JENKINS_NAME)']
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
       imagePullPolicy: Always
