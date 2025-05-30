@@ -21,9 +21,9 @@ pipeline {
         container('kaniko') {
           sh '''
             /kaniko/executor \
-              --context `pwd` \
-              --dockerfile Dockerfile \
-              --destination=$IMAGE_NAME \
+              --context=dir:///workspace \
+              --dockerfile=Dockerfile \
+              --destination=${IMAGE_NAME} \
               --insecure \
               --skip-tls-verify
           '''
@@ -33,7 +33,9 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        sh 'kubectl apply -f k8s/deployment.yaml'
+        container('kubectl') {
+          sh 'kubectl apply -f k8s/deployment.yaml'
+        }
       }
     }
   }
