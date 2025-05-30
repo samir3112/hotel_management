@@ -4,6 +4,7 @@ metadata:
   labels:
     app: kaniko-agent
 spec:
+  serviceAccountName: jenkins
   containers:
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
