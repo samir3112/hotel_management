@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'agent'
+      label 'kaniko-agent'
       yamlFile 'kaniko-agent.yaml'
     }
   }
