@@ -10,6 +10,8 @@ spec:
     - name: jnlp
       image: jenkins/inbound-agent:3107.v665000b_51092-15
       args: ['$(JENKINS_SECRET)', '$(JENKINS_NAME)']
+      tty: true
+
     - name: kaniko
       image: gcr.io/kaniko-project/executor:latest
       imagePullPolicy: Always
@@ -25,6 +27,13 @@ spec:
       volumeMounts:
         - name: docker-config
           mountPath: /kaniko/.docker
+
+    - name: kubectl
+      image: bitnami/kubectl:latest
+      command:
+        - cat
+      tty: true
+      
   restartPolicy: Never
   volumes:
     - name: docker-config
