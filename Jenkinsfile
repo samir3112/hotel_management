@@ -1,9 +1,12 @@
 pipeline {
   agent {
     kubernetes {
-      label 'kaniko-agent'
-      yamlFile 'kaniko-agent.yaml'
+      inheritFrom 'kaniko-template' // Defined in Jenkins UI
     }
+  }
+
+  environment {
+    IMAGE_NAME = 'samir3112/hotel-management:latest'
   }
 
   stages {
@@ -20,7 +23,7 @@ pipeline {
             /kaniko/executor \
               --context `pwd` \
               --dockerfile Dockerfile \
-              --destination=docker.io/samir3112/hotel-management:latest\
+              --destination=$IMAGE_NAME \
               --insecure \
               --skip-tls-verify
           '''
@@ -28,7 +31,7 @@ pipeline {
       }
     }
 
-    stage('Deploy to K8s') {
+    stage('Deploy to Kubernetes') {
       steps {
         sh 'kubectl apply -f k8s/deployment.yaml'
       }
